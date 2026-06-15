@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1.0",
+  "id": "com.github.custom.hcu-tibber",
+  "name": "Tibber Integration",
+  "version": "1.1.0",
+  "description": "Offizielles HCU-Plugin fuer Tibber-Preise und Pulse-Zaehlerdaten via Intervall-Polling.",
+  "author": "GitHub Community",
+  "entrypoint": "node src/index.js",
+  "permissions": {
+    "network": {
+      "outbound": [
+        "://tibber.com"
+      ]
+    }
+  },
+  "exposedDevices": [
+    {
+      "id": "tibber_monitor_device",
+      "name": "Tibber Monitor",
+      "type": "GENERIC_METER",
+      "channels": [
+        {
+          "id": "values",
+          "label": "Stromdaten",
+          "parameters": [
+            {
+              "id": "current_price",
+              "type": "FLOAT",
+              "unit": "EUR",
+              "defaultValue": 0.0,
+              "operations": ["READ", "EVENT"]
+            },
+            {
+              "id": "pulse_consumption_today",
+              "type": "FLOAT",
+              "unit": "kWh",
+              "defaultValue": 0.0,
+              "operations": ["READ", "EVENT"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
