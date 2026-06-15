@@ -1,0 +1,37 @@
+name: Build HCU Plugin Release
+
+on:
+  release:
+    types: [published]
+
+# ERZWINGT SCHREIBRECHTE FÜR DAS RELEASE-ASSET
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image
+        run: |
+          docker build -t hcu-tibber-plugin:latest .
+
+      - name: Export Docker Image to OCI Tarball
+        run: |
+          docker save hcu-tibber-plugin:latest -o image.tar
+
+      - name: Create HCU Plugin ZIP Bundle
+        run: |
+          zip -r hcu-tibber-plugin.zip manifest.json image.tar
+
+      - name: Upload Asset to GitHub Release (Via Native GitHub CLI)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload ${{ github.event.release.tag_name }} ./hcu-tibber-plugin.zip --clobber
