@@ -4,7 +4,6 @@ on:
   release:
     types: [published]
 
-# ERZWINGT SCHREIBRECHTE FÜR DAS RELEASE-ASSET
 permissions:
   contents: write
 
@@ -26,12 +25,12 @@ jobs:
         run: |
           docker save hcu-tibber-plugin:latest -o image.tar
 
-      - name: Create HCU Plugin ZIP Bundle
+      - name: Create HCU Plugin TAR.GZ Bundle
         run: |
-          zip -r hcu-tibber-plugin.zip manifest.json image.tar
+          tar -czf hcu-tibber-plugin.tar.gz manifest.json image.tar
 
       - name: Upload Asset to GitHub Release (Via Native GitHub CLI)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload ${{ github.event.release.tag_name }} ./hcu-tibber-plugin.zip --clobber
+          gh release upload ${{ github.event.release.tag_name }} ./hcu-tibber-plugin.tar.gz --clobber

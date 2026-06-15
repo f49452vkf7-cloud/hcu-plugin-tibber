@@ -12,10 +12,10 @@ Es läuft ressourcenschonend im **reinen Intervallbetrieb** ohne dauerhafte Hint
 
 ## Installation auf der HCU
 
-1. Laden Sie die fertige `hcu-tibber-plugin.zip` aus den **Releases** dieses GitHub-Repositorys herunter.
+1. Laden Sie die fertige **`hcu-tibber-plugin.tar.gz`** aus den **Releases** dieses GitHub-Repositorys herunter.
 2. Öffnen Sie die **HCUweb-Oberfläche** Ihrer Home Control Unit im Webbrowser.
 3. Aktivieren Sie in den HCU-Systemeinstellungen den **Entwicklermodus**.
-4. Navigieren Sie zu **Plugins** -> **Plugin hochladen** und wählen Sie die heruntergeladene ZIP-Datei aus.
+4. Navigieren Sie zu **Plugins** -> **Plugin hochladen** und wählen Sie die heruntergeladene Z.tar.gz-Datei aus.
 5. Vergeben Sie in der HCUweb-Konfiguration des Plugins die erforderliche Umgebungsvariable (siehe Konfiguration).
 
 ## Konfiguration
