@@ -41,7 +41,9 @@ hcuWs.on('open', () => {
 function updateHcuVariable(parameterId, value) {
     const payload = {
         jsonrpc: "2.0",
+        // Richtig: KEIN Leerzeichen vor hcu/plugin/...
         method: "hcu/plugin/updateParameterValue",
+
         params: {
             deviceId: "tibber_monitor_device",
             channelId: "values",

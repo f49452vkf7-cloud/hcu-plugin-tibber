@@ -25,7 +25,7 @@ jobs:
         run: |
           docker save hcu-tibber-plugin:latest -o image.tar
 
-      - name: Create HCU Plugin TAR.GZ Bundle
+      - name: Create Flatted HCU Plugin TAR.GZ Bundle
         run: |
           tar -czf hcu-tibber-plugin.tar.gz manifest.json image.tar
 
