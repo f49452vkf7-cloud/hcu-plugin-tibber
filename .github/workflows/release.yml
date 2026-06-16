@@ -17,31 +17,34 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up QEMU (Required for ARM64 Emulation)
-        uses: docker/setup-qemu-action@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build and Export Valid ARM64 OCI Layout
+      - name: Structure Spec-Compliant HCU Directory
         run: |
-          mkdir -p ${{ github.workspace }}/oci-export
-          docker buildx build \
-            --platform linux/arm64 \
-            --output type=oci,dest=${{ github.workspace }}/oci-export/image.tar .
-
-      - name: Structure Flat Package Bundle
-        run: |
-          mkdir -p ${{ github.workspace }}/hcu-package
-          tar -xf ${{ github.workspace }}/oci-export/image.tar -C ${{ github.workspace }}/hcu-package
-          cp manifest.json ${{ github.workspace }}/hcu-package/
+          # Erstellt den von der HCU geforderten ID-Hauptordner im Temp-Verzeichnis
+          mkdir -p /tmp/custom.tibber.monitor/src
+          
+          # Kopiert alle Quellcode-Dateien in diesen Struktur-Ordner
+          cp manifest.json /tmp/custom.tibber.monitor/
+          cp package.json /tmp/custom.tibber.monitor/
+          cp src/index.js /tmp/custom.tibber.monitor/src/
+          
+          # Installiert die Produktiv-Abhängigkeiten direkt im Zielordner
+          cd /tmp/custom.tibber.monitor
+          npm install --omit=dev
 
       - name: Create Spec-Compliant HCU TAR.GZ Bundle
         run: |
-          tar --format=posix -czf ${{ github.workspace }}/custom.tibber.monitor-1.11.0.tar.gz -C ${{ github.workspace }}/hcu-package .
+          # Packt den Ordner aus dem übergeordneten Verzeichnis, um die verschachtelte eQ-3-Struktur zu wahren
+          cd /tmp
+          tar --format=posix -czf hcu-tibber-plugin.tar.gz custom.tibber.monitor/
+          mv hcu-tibber-plugin.tar.gz ${{ github.workspace }}/custom.tibber.monitor-1.12.0.tar.gz
 
       - name: Upload Asset to GitHub Release (Via Native GitHub CLI)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload ${{ github.event.release.tag_name }} ${{ github.workspace }}/custom.tibber.monitor-1.11.0.tar.gz --clobber
+          gh release upload ${{ github.event.release.tag_name }} ${{ github.workspace }}/custom.tibber.monitor-1.12.0.tar.gz --clobber

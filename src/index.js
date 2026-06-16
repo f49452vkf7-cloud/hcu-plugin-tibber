@@ -30,13 +30,14 @@ hcuWs.on('open', () => {
     startConsumptionPolling();
 });
 
-// Erzwungene eQ-3-Methode fuer Systemvariablen (Properties)
-function updateHcuVariable(propertyId, value) {
+function updateHcuVariable(parameterId, value) {
     const payload = {
         jsonrpc: "2.0",
-        method: "hcu/plugin/updatePropertyValue",
+        method: "hcu/plugin/updateParameterValue",
         params: {
-            propertyId: propertyId,
+            deviceId: "tibber_monitor_device",
+            channelId: "values",
+            parameterId: parameterId,
             value: value
         },
         id: Date.now()
@@ -74,7 +75,7 @@ async function fetchTibberPrice() {
         const price = firstHome?.currentSubscription?.priceInfo?.current?.total;
         if (price !== undefined && price !== null) {
             console.log(`[Preis-Update] ${price} EUR`);
-            updateHcuVariable("tibber_current_price", parseFloat(price));
+            updateHcuVariable("current_price", parseFloat(price));
             return;
         }
     }
@@ -108,7 +109,7 @@ async function fetchTibberConsumption() {
             const consumption = firstNode?.accumulatedConsumption;
             if (consumption !== undefined && consumption !== null) {
                 console.log(`[Verbrauchs-Update] ${consumption} kWh`);
-                updateHcuVariable("tibber_pulse_consumption_today", parseFloat(consumption));
+                updateHcuVariable("pulse_consumption_today", parseFloat(consumption));
                 return;
             }
         }
