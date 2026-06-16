@@ -1,7 +1,7 @@
 const WebSocket = require('ws');
 
 const TIBBER_TOKEN = process.env.TIBBER_TOKEN;
-const TIBBER_API_URL = "https://tibber.com";
+const TIBBER_API_URL = "https://api.tibber.com/v1-beta/api";
 
 const HCU_HOST = process.env.HCU_API_HOST || "localhost";
 const HCU_PORT = process.env.HCU_API_PORT || "8080";
