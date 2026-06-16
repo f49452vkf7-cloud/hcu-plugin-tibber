@@ -35,7 +35,9 @@ jobs:
 
       - name: Create Spec-Compliant HCU TAR.GZ Bundle
         run: |
-          tar --format=posix -czf ./hcu-tibber-plugin.tar.gz -C ./hcu-package .
+          # Wechselt physisch in das Verzeichnis, um die OCI-Bestandteile sauber ohne Wildcard-Fehler zu packen
+          cd ./hcu-package
+          tar --format=posix -czf ../hcu-tibber-plugin.tar.gz .
 
       - name: Upload Asset to GitHub Release (Via Native GitHub CLI)
         env:
