@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "id": "custom.tibber.monitor",
   "name": "Tibber Integration",
-  "version": "1.9.2",
+  "version": "1.9.4",
   "description": "Offizielles HCU-Plugin fuer Tibber-Preise und Dashboard-Zaehlerdaten.",
   "author": "GitHub Community",
   "entrypoint": "node src/index.js",
@@ -13,34 +13,20 @@
       ]
     }
   },
-  "exposedDevices": [
+  "properties": [
     {
-      "id": "tibber_monitor_device",
-      "name": "Tibber Monitor",
-      "type": "POWER_METER",
-      "channels": [
-        {
-          "id": "values",
-          "label": "Stromdaten",
-          "type": "POWER_METER_CHANNEL",
-          "parameters": [
-            {
-              "id": "current_price",
-              "type": "FLOAT",
-              "unit": "EUR",
-              "defaultValue": 0.0,
-              "operations": ["READ", "EVENT"]
-            },
-            {
-              "id": "pulse_consumption_today",
-              "type": "FLOAT",
-              "unit": "kWh",
-              "defaultValue": 0.0,
-              "operations": ["READ", "EVENT"]
-            }
-          ]
-        }
-      ]
+      "id": "tibber_current_price",
+      "label": "Tibber Aktueller Strompreis",
+      "type": "FLOAT",
+      "unit": "EUR",
+      "defaultValue": 0.0
+    },
+    {
+      "id": "tibber_pulse_consumption_today",
+      "label": "Tibber Pulse Stromverbrauch heute",
+      "type": "FLOAT",
+      "unit": "kWh",
+      "defaultValue": 0.0
     }
   ]
 }
