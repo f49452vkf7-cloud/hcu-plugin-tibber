@@ -12,12 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
+        # Aktualisiert auf v4 (voll kompatibel mit dem neuen Node 24 Runner)
         uses: actions/checkout@v4
 
       - name: Set up QEMU (Required for ARM64 Emulation)
+        # Aktualisiert auf v3 (voll kompatibel mit dem neuen Node 24 Runner)
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
+        # Aktualisiert auf v3 (voll kompatibel mit dem neuen Node 24 Runner)
         uses: docker/setup-buildx-action@v3
 
       - name: Build and Export Valid ARM64 OCI Layout
@@ -35,10 +38,11 @@ jobs:
 
       - name: Create Spec-Compliant HCU TAR.GZ Bundle
         run: |
-          tar --format=posix -czf ${{ github.workspace }}/hcu-tibber-plugin.tar.gz -C ${{ github.workspace }}/hcu-package .
+          cd ./hcu-package
+          tar --format=posix -czf ../hcu-tibber-plugin.tar.gz .
 
       - name: Upload Asset to GitHub Release (Via Native GitHub CLI)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload ${{ github.event.release.tag_name }} ${{ github.workspace }}/hcu-tibber-plugin.tar.gz --clobber
+          gh release upload ${{ github.event.release.tag_name }} ../hcu-tibber-plugin.tar.gz --clobber
