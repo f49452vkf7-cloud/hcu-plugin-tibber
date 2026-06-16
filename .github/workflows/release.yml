@@ -14,33 +14,19 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up QEMU (Required for ARM64 Emulation)
-        uses: docker/setup-qemu-action@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build and Export Valid ARM64 OCI Layout
+      - name: Install Production Dependencies
         run: |
-          # Erstellt den OCI-Export ordnungsgemäß für die ARM64-Architektur der HCU
-          docker buildx build \
-            --platform linux/arm64 \
-            --output type=oci,dest=./oci-image.tar .
+          npm ci --only=production
 
-      - name: Structure Flat Package Bundle
+      - name: Create Valid HCU Source TAR.GZ Bundle
         run: |
-          # Erstellt ein temporäres Verzeichnis und entpackt die OCI-Struktur
-          mkdir -p hcu-package
-          tar -xf oci-image.tar -C hcu-package
-          
-          # Platziert das HCU-Manifest direkt auf die flache Root-Ebene
-          cp manifest.json hcu-package/
-
-      - name: Create Valid HCU Plugin TAR.GZ Bundle
-        run: |
-          # Packt den Inhalt flach (ohne Unterordner) in das finale Archiv
-          cd hcu-package
-          tar -czf ../hcu-tibber-plugin.tar.gz .
+          # Packt die reine Ordnerstruktur inklusive node_modules auf Root-Ebene
+          tar -czf ./hcu-tibber-plugin.tar.gz manifest.json package.json package-lock.json src/ node_modules/
 
       - name: Upload Asset to GitHub Release (Via Native GitHub CLI)
         env:

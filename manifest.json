@@ -2,8 +2,8 @@
   "schemaVersion": "1.0",
   "id": "com.github.custom.hcu-tibber",
   "name": "Tibber Integration",
-  "version": "1.1.3",
-  "description": "Offizielles HCU-Plugin fuer Tibber-Preise und Pulse-Zaehlerdaten via Intervall-Polling.",
+  "version": "1.1.7",
+  "description": "Natives HCU-Plugin fuer Tibber-Preise und Zaehlerdaten.",
   "author": "",
   "entrypoint": "node src/index.js",
   "permissions": {
@@ -22,6 +22,7 @@
         {
           "id": "values",
           "label": "Stromdaten",
+          "type": "CUSTOM",
           "parameters": [
             {
               "id": "current_price",
