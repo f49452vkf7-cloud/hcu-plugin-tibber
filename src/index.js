@@ -69,14 +69,17 @@ async function fetchTibberPrice() {
     const query = `{ viewer { homes { currentSubscription { priceInfo { current { total } } } } } }`;
     const json = await queryTibber(query);
     
-    const price = json?.data?.viewer?.homes?.[0]?.currentSubscription?.priceInfo?.current?.total;
-    
-    if (price !== undefined && price !== null) {
-        console.log(`[Preis-Update] ${price} EUR`);
-        updateHcuVariable("current_price", parseFloat(price));
-    } else {
-        console.error("Fehler beim Parsen des Tibber-Preises aus der API-Antwort.");
+    // Loesung: Sicheres Navigieren durch das Homes-Array ohne doppelte Fragezeichen
+    const homes = json?.data?.viewer?.homes;
+    if (Array.isArray(homes) && homes.length > 0) {
+        const price = homes[0]?.currentSubscription?.priceInfo?.current?.total;
+        if (price !== undefined && price !== null) {
+            console.log(`[Preis-Update] ${price} EUR`);
+            updateHcuVariable("current_price", parseFloat(price));
+            return;
+        }
     }
+    console.error("Fehler beim Parsen des Tibber-Preises aus der API-Antwort.");
 }
 
 function schedulePricePolling() {
@@ -97,14 +100,20 @@ async function fetchTibberConsumption() {
     const query = `{ viewer { homes { consumption(resolution: HOURLY, last: 1) { nodes { accumulatedConsumption } } } } }`;
     const json = await queryTibber(query);
     
-    const consumption = json?.data?.viewer?.homes?.[0]?.consumption?.nodes?.[0]?.accumulatedConsumption;
-    
-    if (consumption !== undefined && consumption !== null) {
-        console.log(`[Verbrauchs-Update] ${consumption} kWh`);
-        updateHcuVariable("pulse_consumption_today", parseFloat(consumption));
-    } else {
-        console.error("Fehler beim Parsen des Tibber-Verbrauchs aus der API-Antwort.");
+    // Loesung: Sicheres Navigieren durch das Homes- und das Nodes-Array
+    const homes = json?.data?.viewer?.homes;
+    if (Array.isArray(homes) && homes.length > 0) {
+        const nodes = homes[0]?.consumption?.nodes;
+        if (Array.isArray(nodes) && nodes.length > 0) {
+            const consumption = nodes[0]?.accumulatedConsumption;
+            if (consumption !== undefined && consumption !== null) {
+                console.log(`[Verbrauchs-Update] ${consumption} kWh`);
+                updateHcuVariable("pulse_consumption_today", parseFloat(consumption));
+                return;
+            }
+        }
     }
+    console.error("Fehler beim Parsen des Tibber-Verbrauchs aus der API-Antwort.");
 }
 
 function startConsumptionPolling() {
