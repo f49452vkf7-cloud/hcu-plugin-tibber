@@ -1,7 +1,7 @@
 const WebSocket = require('ws');
 
 const TIBBER_TOKEN = process.env.TIBBER_TOKEN;
-const TIBBER_API_URL = "https://api.tibber.com/v1-beta/api";
+const TIBBER_API_URL = "https://tibber.com";
 
 const HCU_HOST = process.env.HCU_API_HOST || "localhost";
 const HCU_PORT = process.env.HCU_API_PORT || "8080";
@@ -69,10 +69,13 @@ async function fetchTibberPrice() {
     const query = `{ viewer { homes { currentSubscription { priceInfo { current { total } } } } } }`;
     const json = await queryTibber(query);
     
-    if (json?.data?.viewer?.homes?.[0]?.currentSubscription?.priceInfo?.current) {
-        const price = json.data.viewer.homes[0].currentSubscription.priceInfo.current.total;
+    const price = json?.data?.viewer?.homes?.[0]?.currentSubscription?.priceInfo?.current?.total;
+    
+    if (price !== undefined && price !== null) {
         console.log(`[Preis-Update] ${price} EUR`);
         updateHcuVariable("current_price", parseFloat(price));
+    } else {
+        console.error("Fehler beim Parsen des Tibber-Preises aus der API-Antwort.");
     }
 }
 
@@ -94,10 +97,13 @@ async function fetchTibberConsumption() {
     const query = `{ viewer { homes { consumption(resolution: HOURLY, last: 1) { nodes { accumulatedConsumption } } } } }`;
     const json = await queryTibber(query);
     
-    if (json?.data?.viewer?.homes?.[0]?.consumption?.nodes?.[0]) {
-        const consumption = json.data.viewer.homes[0].consumption.nodes[0].accumulatedConsumption;
+    const consumption = json?.data?.viewer?.homes?.[0]?.consumption?.nodes?.[0]?.accumulatedConsumption;
+    
+    if (consumption !== undefined && consumption !== null) {
         console.log(`[Verbrauchs-Update] ${consumption} kWh`);
         updateHcuVariable("pulse_consumption_today", parseFloat(consumption));
+    } else {
+        console.error("Fehler beim Parsen des Tibber-Verbrauchs aus der API-Antwort.");
     }
 }
 

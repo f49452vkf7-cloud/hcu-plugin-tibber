@@ -24,15 +24,12 @@ jobs:
 
       - name: Create Spec-Compliant HCU Source TAR.GZ Bundle
         run: |
-          # Packt das Projekt in /tmp und schließt Git- sowie CI-Ordner sauber aus
           tar --format=posix \
             --exclude='.git' \
             --exclude='.github' \
             --exclude='.gitignore' \
             --exclude='README.md' \
             -czf /tmp/hcu-tibber-plugin.tar.gz .
-            
-          # Verschiebt das fertige Archiv zurück für den Upload
           mv /tmp/hcu-tibber-plugin.tar.gz ${{ github.workspace }}/hcu-tibber-plugin.tar.gz
 
       - name: Upload Asset to GitHub Release (Via Native GitHub CLI)
