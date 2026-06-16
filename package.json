@@ -1,7 +1,7 @@
 {
   "name": "hcu-plugin-tibber",
-  "version": "1.9.8",
-  "description": "Tibber Connect-API Integration fuer HmIP-HCU",
+  "version": "1.10.0",
+  "description": "Offizielles Tibber HCU-Plugin fuer Strompreise und Dashboard-Zaehlerdaten",
   "main": "src/index.js",
   "private": true,
   "dependencies": {

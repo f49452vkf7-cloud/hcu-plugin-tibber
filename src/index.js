@@ -71,7 +71,6 @@ async function fetchTibberPrice() {
     
     const homes = json?.data?.viewer?.homes;
     if (Array.isArray(homes) && homes.length > 0) {
-        // SICHERER INDEX-ZUGRIFF: Greift exakt auf das erste Element [0] zu
         const firstHome = homes[0];
         const price = firstHome?.currentSubscription?.priceInfo?.current?.total;
         if (price !== undefined && price !== null) {
@@ -103,11 +102,9 @@ async function fetchTibberConsumption() {
     
     const homes = json?.data?.viewer?.homes;
     if (Array.isArray(homes) && homes.length > 0) {
-        // SICHERER INDEX-ZUGRIFF: Greift exakt auf das erste Element [0] zu
         const firstHome = homes[0];
         const nodes = firstHome?.consumption?.nodes;
         if (Array.isArray(nodes) && nodes.length > 0) {
-            // SICHERER INDEX-ZUGRIFF: Greift exakt auf das erste Element [0] zu
             const firstNode = nodes[0];
             const consumption = firstNode?.accumulatedConsumption;
             if (consumption !== undefined && consumption !== null) {

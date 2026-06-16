@@ -2,8 +2,8 @@
   "schemaVersion": "1.0",
   "id": "custom.tibber.monitor",
   "name": "Tibber Integration",
-  "version": "1.9.8",
-  "description": "Offizielles HCU-Plugin fuer Tibber-Preise und Zaehlerdaten via Intervall-Polling.",
+  "version": "1.10.0",
+  "description": "Natives HCU-Plugin fuer Tibber-Preise und Zaehlerdaten.",
   "author": "GitHub Community",
   "entrypoint": "node src/index.js",
   "permissions": {
@@ -17,12 +17,12 @@
     {
       "id": "tibber_monitor_device",
       "name": "Tibber Monitor",
-      "type": "GENERIC_INPUT",
+      "type": "POWER_METER",
       "channels": [
         {
           "id": "values",
           "label": "Stromdaten",
-          "type": "GENERIC_INPUT_CHANNEL",
+          "type": "POWER_METER_CHANNEL",
           "parameters": [
             {
               "id": "current_price",

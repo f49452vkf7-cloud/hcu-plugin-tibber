@@ -17,23 +17,32 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
+      - name: Set up QEMU (Required for ARM64 Emulation)
+        uses: docker/setup-qemu-action@v3
 
-      - name: Create Spec-Compliant HCU Source TAR.GZ Bundle
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and Export Valid ARM64 OCI Layout
         run: |
-          tar --format=posix \
-            --exclude='.git' \
-            --exclude='.github' \
-            --exclude='.gitignore' \
-            --exclude='README.md' \
-            -czf /tmp/custom.tibber.monitor-1.9.8.tar.gz .
-          mv /tmp/custom.tibber.monitor-1.9.8.tar.gz ${{ github.workspace }}/custom.tibber.monitor-1.9.8.tar.gz
+          mkdir -p ${{ github.workspace }}/oci-export
+          docker buildx build \
+            --platform linux/arm64 \
+            --output type=oci,dest=${{ github.workspace }}/oci-export/image.tar .
+
+      - name: Structure Flat Package Bundle
+        run: |
+          mkdir -p ${{ github.workspace }}/hcu-package
+          tar -xf ${{ github.workspace }}/oci-export/image.tar -C ${{ github.workspace }}/hcu-package
+          cp manifest.json ${{ github.workspace }}/hcu-package/
+
+      - name: Create Spec-Compliant HCU TAR.GZ Bundle
+        run: |
+          # Packt manifest.json und image.tar exakt auf Root-Ebene nach eQ-3 Vorgabe im POSIX-Format
+          tar --format=posix -czf ${{ github.workspace }}/custom.tibber.monitor-1.10.0.tar.gz -C ${{ github.workspace }}/hcu-package .
 
       - name: Upload Asset to GitHub Release (Via Native GitHub CLI)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload ${{ github.event.release.tag_name }} ${{ github.workspace }}/custom.tibber.monitor-1.9.8.tar.gz --clobber
+          gh release upload ${{ github.event.release.tag_name }} ${{ github.workspace }}/custom.tibber.monitor-1.10.0.tar.gz --clobber
