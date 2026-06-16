@@ -109,7 +109,8 @@ async function fetchTibberConsumption() {
             const consumption = firstNode?.accumulatedConsumption;
             if (consumption !== undefined && consumption !== null) {
                 console.log(`[Verbrauchs-Update] ${consumption} kWh`);
-                updateHcuVariable("pulse_consumption_today", parseFloat(consumption));
+                // Erwartet nun exakt die standardisierte Dashboard-ID
+                updateHcuVariable("ENERGY_COUNTER", parseFloat(consumption));
                 return;
             }
         }

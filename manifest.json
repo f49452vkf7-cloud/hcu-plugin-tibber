@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "id": "custom.tibber.monitor",
   "name": "Tibber Integration",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "description": "Natives HCU-Plugin fuer Tibber-Preise und Zaehlerdaten.",
   "author": "GitHub Community",
   "entrypoint": "node src/index.js",
@@ -17,12 +17,12 @@
     {
       "id": "tibber_monitor_device",
       "name": "Tibber Monitor",
-      "type": "POWER_METER",
+      "type": "GENERIC",
       "channels": [
         {
           "id": "values",
           "label": "Stromdaten",
-          "type": "POWER_METER_CHANNEL",
+          "type": "CUSTOM",
           "parameters": [
             {
               "id": "current_price",
@@ -32,7 +32,7 @@
               "operations": ["READ", "EVENT"]
             },
             {
-              "id": "pulse_consumption_today",
+              "id": "ENERGY_COUNTER",
               "type": "FLOAT",
               "unit": "kWh",
               "defaultValue": 0.0,

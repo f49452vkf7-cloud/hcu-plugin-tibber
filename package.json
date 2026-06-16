@@ -1,6 +1,6 @@
 {
   "name": "hcu-plugin-tibber",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "description": "Offizielles Tibber HCU-Plugin fuer Strompreise und Dashboard-Zaehlerdaten",
   "main": "src/index.js",
   "private": true,
