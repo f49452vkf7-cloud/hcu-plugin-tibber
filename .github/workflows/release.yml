@@ -24,21 +24,16 @@ jobs:
 
       - name: Structure Spec-Compliant HCU Directory
         run: |
-          # Erstellt den von der HCU geforderten ID-Hauptordner im Temp-Verzeichnis
           mkdir -p /tmp/custom.tibber.monitor/src
-          
-          # Kopiert alle Quellcode-Dateien in diesen Struktur-Ordner
           cp manifest.json /tmp/custom.tibber.monitor/
           cp package.json /tmp/custom.tibber.monitor/
           cp src/index.js /tmp/custom.tibber.monitor/src/
           
-          # Installiert die Produktiv-Abhängigkeiten direkt im Zielordner
           cd /tmp/custom.tibber.monitor
           npm install --omit=dev
 
       - name: Create Spec-Compliant HCU TAR.GZ Bundle
         run: |
-          # Packt den Ordner aus dem übergeordneten Verzeichnis, um die verschachtelte eQ-3-Struktur zu wahren
           cd /tmp
           tar --format=posix -czf hcu-tibber-plugin.tar.gz custom.tibber.monitor/
           mv hcu-tibber-plugin.tar.gz ${{ github.workspace }}/custom.tibber.monitor-1.12.0.tar.gz

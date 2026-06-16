@@ -17,12 +17,12 @@
     {
       "id": "tibber_monitor_device",
       "name": "Tibber Monitor",
-      "type": "GENERIC",
+      "type": "VIRTUAL_DIMMER",
       "channels": [
         {
           "id": "values",
           "label": "Stromdaten",
-          "type": "CUSTOM",
+          "type": "VIRTUAL_DIMMER_CHANNEL",
           "parameters": [
             {
               "id": "current_price",
