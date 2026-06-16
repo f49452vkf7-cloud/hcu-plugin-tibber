@@ -1,8 +1,9 @@
 {
-  "manifestVersion": 1,
+  "schemaVersion": "1.0",
+  "type": "APPLICATION",
   "id": "custom.tibber.monitor",
   "name": "Tibber Integration",
-  "version": "1.9.5",
+  "version": "1.9.6",
   "description": "Offizielles HCU-Plugin fuer Tibber-Preise und Dashboard-Zaehlerdaten.",
   "author": "GitHub Community",
   "entrypoint": "node src/index.js",

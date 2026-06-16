@@ -69,7 +69,9 @@ async function fetchTibberPrice() {
     
     const homes = json?.data?.viewer?.homes;
     if (Array.isArray(homes) && homes.length > 0) {
-        const price = homes[0]?.currentSubscription?.priceInfo?.current?.total;
+        // Sichere Extraktion aus dem ersten Array-Element ohne syntaktische Chaining-Fehler
+        const firstHome = homes[0];
+        const price = firstHome?.currentSubscription?.priceInfo?.current?.total;
         if (price !== undefined && price !== null) {
             console.log(`[Preis-Update] ${price} EUR`);
             updateHcuVariable("tibber_current_price", parseFloat(price));
@@ -99,9 +101,11 @@ async function fetchTibberConsumption() {
     
     const homes = json?.data?.viewer?.homes;
     if (Array.isArray(homes) && homes.length > 0) {
-        const nodes = homes[0]?.consumption?.nodes;
+        const firstHome = homes[0];
+        const nodes = firstHome?.consumption?.nodes;
         if (Array.isArray(nodes) && nodes.length > 0) {
-            const consumption = nodes[0]?.accumulatedConsumption;
+            const firstNode = nodes[0];
+            const consumption = firstNode?.accumulatedConsumption;
             if (consumption !== undefined && consumption !== null) {
                 console.log(`[Verbrauchs-Update] ${consumption} kWh`);
                 updateHcuVariable("tibber_pulse_consumption_today", parseFloat(consumption));

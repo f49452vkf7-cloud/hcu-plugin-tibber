@@ -1,6 +1,6 @@
 {
   "name": "hcu-plugin-tibber",
-  "version": "1.9.5",
+  "version": "1.9.6",
   "description": "Tibber Connect-API Integration fuer HmIP-HCU (Dashboard-kompatibel)",
   "main": "src/index.js",
   "private": true,
