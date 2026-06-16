@@ -2,8 +2,8 @@
   "schemaVersion": "1.0",
   "id": "com.github.custom.hcu-tibber",
   "name": "Tibber Integration",
-  "version": "1.1.7",
-  "description": "Natives HCU-Plugin fuer Tibber-Preise und Zaehlerdaten.",
+  "version": "1.1.10",
+  "description": "Offizielles HCU-Plugin fuer Tibber-Preise und Zaehlerdaten via Intervall-Polling.",
   "author": "",
   "entrypoint": "node src/index.js",
   "permissions": {

@@ -1,10 +1,8 @@
 const WebSocket = require('ws');
 
-// Konfiguration via Umgebungsvariable (wird ueber HCU-UI vom User gesetzt)
 const TIBBER_TOKEN = process.env.TIBBER_TOKEN;
 const TIBBER_API_URL = "https://tibber.com";
 
-// Lokale HCU-Umgebungsvariablen auslesen
 const HCU_HOST = process.env.HCU_API_HOST || "localhost";
 const HCU_PORT = process.env.HCU_API_PORT || "8080";
 const HCU_TOKEN = process.env.HCU_API_TOKEN;
@@ -19,7 +17,6 @@ if (!HCU_TOKEN) {
     process.exit(1);
 }
 
-// Verbindung zur lokalen HCU Connect API initialisieren
 const hcuSocketUrl = `ws://${HCU_HOST}:${HCU_PORT}/api/v1/connect`;
 const hcuWs = new WebSocket(hcuSocketUrl, {
     headers: { 'Authorization': `Bearer ${HCU_TOKEN}` }
@@ -27,23 +24,16 @@ const hcuWs = new WebSocket(hcuSocketUrl, {
 
 hcuWs.on('open', () => {
     console.log('Erfolgreich an HCU Connect API authentifiziert.');
-    
-    // Initialer Datenabruf beim Start
     fetchTibberPrice();
     fetchTibberConsumption();
-    
-    // Scheduler starten
     schedulePricePolling();
     startConsumptionPolling();
 });
 
-// JSON-RPC 2.0 konforme Datenuebergabe an die HCU
 function updateHcuVariable(parameterId, value) {
     const payload = {
         jsonrpc: "2.0",
-        // Richtig: KEIN Leerzeichen vor hcu/plugin/...
         method: "hcu/plugin/updateParameterValue",
-
         params: {
             deviceId: "tibber_monitor_device",
             channelId: "values",
@@ -75,7 +65,6 @@ async function queryTibber(graphQlQuery) {
     }
 }
 
-// === INTERVALL A: TIBBER AKTUELLER PREIS ===
 async function fetchTibberPrice() {
     const query = `{ viewer { homes { currentSubscription { priceInfo { current { total } } } } } }`;
     const json = await queryTibber(query);
@@ -101,7 +90,6 @@ function schedulePricePolling() {
     }, delay);
 }
 
-// === INTERVALL B: TIBBER VERBRAUCH (3 MINUTEN) ===
 async function fetchTibberConsumption() {
     const query = `{ viewer { homes { consumption(resolution: HOURLY, last: 1) { nodes { accumulatedConsumption } } } } }`;
     const json = await queryTibber(query);
@@ -119,6 +107,6 @@ function startConsumptionPolling() {
 
 hcuWs.on('error', (err) => console.error("HCU WebSocket Protokollfehler:", err));
 hcuWs.on('close', () => {
-    console.log("Verbindung zur HCU verloren. Beende Container fuer automatischen Docker-Restart...");
+    console.log("Verbindung zur HCU verloren. Beende Container...");
     process.exit(1);
 });

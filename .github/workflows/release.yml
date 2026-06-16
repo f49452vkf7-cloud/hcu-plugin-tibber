@@ -22,25 +22,20 @@ jobs:
 
       - name: Build and Export Valid ARM64 OCI Layout
         run: |
-          # Exportiert das Image im OCI-Format sauber in eine separate TAR-Datei
+          mkdir -p ./oci-export
           docker buildx build \
             --platform linux/arm64 \
-            --output type=oci,dest=./oci-image.tar .
+            --output type=oci,dest=./oci-export/image.tar .
 
       - name: Structure Flat Package Bundle
         run: |
-          # Erstellt das finale Paket-Verzeichnis abseits des Hauptordners
-          mkdir -p ../hcu-package
-          tar -xf oci-image.tar -C ../hcu-package
-          
-          # Platziert das HCU-Manifest direkt auf die flache Root-Ebene des Pakets
-          cp manifest.json ../hcu-package/
+          mkdir -p ./hcu-package
+          tar -xf ./oci-export/image.tar -C ./hcu-package
+          cp manifest.json ./hcu-package/
 
       - name: Create Spec-Compliant HCU TAR.GZ Bundle
         run: |
-          # Wechselt in das externe Verzeichnis und packt alle OCI-Bestandteile
-          cd ../hcu-package
-          tar --format=posix -czf $GITHUB_WORKSPACE/hcu-tibber-plugin.tar.gz .
+          tar --format=posix -czf ./hcu-tibber-plugin.tar.gz -C ./hcu-package .
 
       - name: Upload Asset to GitHub Release (Via Native GitHub CLI)
         env:
