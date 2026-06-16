@@ -29,11 +29,11 @@ jobs:
             --exclude='.github' \
             --exclude='.gitignore' \
             --exclude='README.md' \
-            -czf /tmp/hcu-tibber-plugin.tar.gz .
-          mv /tmp/hcu-tibber-plugin.tar.gz ${{ github.workspace }}/hcu-tibber-plugin.tar.gz
+            -czf /tmp/custom.tibber.monitor-1.9.5.tar.gz .
+          mv /tmp/custom.tibber.monitor-1.9.5.tar.gz ${{ github.workspace }}/custom.tibber.monitor-1.9.5.tar.gz
 
       - name: Upload Asset to GitHub Release (Via Native GitHub CLI)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload ${{ github.event.release.tag_name }} ${{ github.workspace }}/hcu-tibber-plugin.tar.gz --clobber
+          gh release upload ${{ github.event.release.tag_name }} ${{ github.workspace }}/custom.tibber.monitor-1.9.5.tar.gz --clobber
