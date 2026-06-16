@@ -17,17 +17,21 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build Docker Image
+      - name: Build and Export OCI Container Directory
         run: |
-          docker build -t hcu-tibber-plugin:latest .
+          # Baut den Container und exportiert ihn als echtes, entpacktes OCI-Verzeichnis
+          docker buildx build --output type=oci,dest=./oci-export .
 
-      - name: Export Docker Image to OCI Tarball
+      - name: Prepare Flat HCU Package Structure
         run: |
-          docker save hcu-tibber-plugin:latest -o image.tar
+          # Verschiebt das Manifest direkt in das OCI-Exportverzeichnis für ein flaches Root-Archiv
+          cp manifest.json ./oci-export/
 
-      - name: Create Flatted HCU Plugin TAR.GZ Bundle
+      - name: Create Valid HCU Plugin TAR.GZ Bundle
         run: |
-          tar -czf hcu-tibber-plugin.tar.gz manifest.json image.tar
+          # Wechselt in den Ordner und packt den Inhalt direkt auf Root-Ebene (ohne Unterordner!)
+          cd oci-export
+          tar -czf ../hcu-tibber-plugin.tar.gz manifest.json *
 
       - name: Upload Asset to GitHub Release (Via Native GitHub CLI)
         env:
