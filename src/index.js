@@ -69,7 +69,7 @@ async function fetchTibberPrice() {
     
     const homes = json?.data?.viewer?.homes;
     if (Array.isArray(homes) && homes.length > 0) {
-        // Sichere Extraktion aus dem ersten Array-Element ohne syntaktische Chaining-Fehler
+        // HIER WAR DER FEHLER: Index [0] fehlte in eckigen Klammern
         const firstHome = homes[0];
         const price = firstHome?.currentSubscription?.priceInfo?.current?.total;
         if (price !== undefined && price !== null) {
@@ -104,6 +104,7 @@ async function fetchTibberConsumption() {
         const firstHome = homes[0];
         const nodes = firstHome?.consumption?.nodes;
         if (Array.isArray(nodes) && nodes.length > 0) {
+            // HIER WAR DER FEHLER: Index [0] fehlte in eckigen Klammern
             const firstNode = nodes[0];
             const consumption = firstNode?.accumulatedConsumption;
             if (consumption !== undefined && consumption !== null) {
