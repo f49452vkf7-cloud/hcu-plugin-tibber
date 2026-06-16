@@ -1,6 +1,6 @@
 {
   "name": "hcu-plugin-tibber",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "description": "Natives HCU-Plugin fuer Tibber-Preise und Dashboard-Zaehlerdaten",
   "main": "src/index.js",
   "private": true,
