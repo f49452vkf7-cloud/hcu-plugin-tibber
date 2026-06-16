@@ -2,14 +2,14 @@
   "schemaVersion": "1.0",
   "id": "com.github.custom.hcu-tibber",
   "name": "Tibber Integration",
-  "version": "1.2.1",
+  "version": "1.4.0",
   "description": "Offizielles HCU-Plugin fuer Tibber-Preise und Zaehlerdaten via Intervall-Polling.",
   "author": "GitHub Community",
   "entrypoint": "node src/index.js",
   "permissions": {
     "network": {
       "outbound": [
-        "://tibber.com"
+        "api.tibber.com"
       ]
     }
   },
