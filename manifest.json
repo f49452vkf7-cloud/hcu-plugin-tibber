@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "id": "custom.tibber.monitor",
   "name": "Tibber Integration",
-  "version": "1.10.1",
+  "version": "1.10.2",
   "description": "Natives HCU-Plugin fuer Tibber-Preise und Zaehlerdaten.",
   "author": "GitHub Community",
   "entrypoint": "node src/index.js",
@@ -25,7 +25,7 @@
           "type": "CUSTOM",
           "parameters": [
             {
-              "id": "current_price",
+              "id": "VALUE",
               "type": "FLOAT",
               "unit": "EUR",
               "defaultValue": 0.0,

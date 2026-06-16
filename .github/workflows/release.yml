@@ -38,10 +38,10 @@ jobs:
 
       - name: Create Spec-Compliant HCU TAR.GZ Bundle
         run: |
-          tar --format=posix -czf ${{ github.workspace }}/custom.tibber.monitor-1.10.1.tar.gz -C ${{ github.workspace }}/hcu-package .
+          tar --format=posix -czf ${{ github.workspace }}/custom.tibber.monitor-1.10.2.tar.gz -C ${{ github.workspace }}/hcu-package .
 
       - name: Upload Asset to GitHub Release (Via Native GitHub CLI)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload ${{ github.event.release.tag_name }} ${{ github.workspace }}/custom.tibber.monitor-1.10.1.tar.gz --clobber
+          gh release upload ${{ github.event.release.tag_name }} ${{ github.workspace }}/custom.tibber.monitor-1.10.2.tar.gz --clobber

@@ -75,7 +75,8 @@ async function fetchTibberPrice() {
         const price = firstHome?.currentSubscription?.priceInfo?.current?.total;
         if (price !== undefined && price !== null) {
             console.log(`[Preis-Update] ${price} EUR`);
-            updateHcuVariable("current_price", parseFloat(price));
+            // Mappt auf die spezifikationskonforme eQ-3 ID 'VALUE'
+            updateHcuVariable("VALUE", parseFloat(price));
             return;
         }
     }
@@ -109,7 +110,6 @@ async function fetchTibberConsumption() {
             const consumption = firstNode?.accumulatedConsumption;
             if (consumption !== undefined && consumption !== null) {
                 console.log(`[Verbrauchs-Update] ${consumption} kWh`);
-                // Erwartet nun exakt die standardisierte Dashboard-ID
                 updateHcuVariable("ENERGY_COUNTER", parseFloat(consumption));
                 return;
             }
