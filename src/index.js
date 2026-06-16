@@ -75,7 +75,6 @@ async function fetchTibberPrice() {
         const price = firstHome?.currentSubscription?.priceInfo?.current?.total;
         if (price !== undefined && price !== null) {
             console.log(`[Preis-Update] ${price} EUR`);
-            // Mappt auf die spezifikationskonforme eQ-3 ID 'VALUE'
             updateHcuVariable("VALUE", parseFloat(price));
             return;
         }

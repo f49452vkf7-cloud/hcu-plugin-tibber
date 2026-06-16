@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "id": "custom.tibber.monitor",
   "name": "Tibber Integration",
-  "version": "1.10.2",
+  "version": "1.10.3",
   "description": "Natives HCU-Plugin fuer Tibber-Preise und Zaehlerdaten.",
   "author": "GitHub Community",
   "entrypoint": "node src/index.js",
@@ -22,7 +22,7 @@
         {
           "id": "values",
           "label": "Stromdaten",
-          "type": "CUSTOM",
+          "type": "GENERIC_INPUT_CHANNEL",
           "parameters": [
             {
               "id": "VALUE",
