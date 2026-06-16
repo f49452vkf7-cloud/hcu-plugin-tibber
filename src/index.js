@@ -69,7 +69,6 @@ async function fetchTibberPrice() {
     const query = `{ viewer { homes { currentSubscription { priceInfo { current { total } } } } } }`;
     const json = await queryTibber(query);
     
-    // Loesung: Sicheres Navigieren durch das Homes-Array ohne doppelte Fragezeichen
     const homes = json?.data?.viewer?.homes;
     if (Array.isArray(homes) && homes.length > 0) {
         const price = homes[0]?.currentSubscription?.priceInfo?.current?.total;
@@ -100,7 +99,6 @@ async function fetchTibberConsumption() {
     const query = `{ viewer { homes { consumption(resolution: HOURLY, last: 1) { nodes { accumulatedConsumption } } } } }`;
     const json = await queryTibber(query);
     
-    // Loesung: Sicheres Navigieren durch das Homes- und das Nodes-Array
     const homes = json?.data?.viewer?.homes;
     if (Array.isArray(homes) && homes.length > 0) {
         const nodes = homes[0]?.consumption?.nodes;

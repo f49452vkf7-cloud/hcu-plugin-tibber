@@ -2,8 +2,8 @@
   "schemaVersion": "1.0",
   "id": "custom.tibber.monitor",
   "name": "Tibber Integration",
-  "version": "1.9.1",
-  "description": "Offizielles HCU-Plugin fuer Tibber-Preise und Zaehlerdaten.",
+  "version": "1.9.2",
+  "description": "Offizielles HCU-Plugin fuer Tibber-Preise und Dashboard-Zaehlerdaten.",
   "author": "GitHub Community",
   "entrypoint": "node src/index.js",
   "permissions": {
@@ -17,12 +17,12 @@
     {
       "id": "tibber_monitor_device",
       "name": "Tibber Monitor",
-      "type": "CLIMATE_SENSOR",
+      "type": "POWER_METER",
       "channels": [
         {
           "id": "values",
           "label": "Stromdaten",
-          "type": "CLIMATE_SENSOR_CHANNEL",
+          "type": "POWER_METER_CHANNEL",
           "parameters": [
             {
               "id": "current_price",
