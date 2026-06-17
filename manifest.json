@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "custom.tibber.monitor",
   "name": "Tibber Integration",
-  "version": "1.13.0",
+  "version": "1.13.1",
   "description": "Natives HCU-Plugin fuer Tibber-Preise und Zaehlerdaten.",
   "author": "GitHub Community",
   "entrypoint": "node src/index.js",
@@ -15,26 +15,38 @@
   },
   "exposedDevices": [
     {
-      "id": "tibber_monitor_device",
-      "name": "Tibber Monitor",
+      "id": "tibber_price_device",
+      "name": "Tibber Strompreis",
       "type": "VIRTUAL_DIMMER",
       "channels": [
         {
-          "id": "values",
-          "label": "Stromdaten",
+          "id": "vch0",
+          "label": "Aktueller Preis",
           "type": "VIRTUAL_DIMMER_CHANNEL",
           "parameters": [
             {
-              "id": "current_price",
+              "id": "LEVEL",
               "type": "FLOAT",
-              "unit": "EUR",
               "defaultValue": 0.0,
               "operations": ["READ", "EVENT"]
-            },
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tibber_consumption_device",
+      "name": "Tibber Verbrauch Heute",
+      "type": "VIRTUAL_DIMMER",
+      "channels": [
+        {
+          "id": "vch0",
+          "label": "Tagesverbrauch",
+          "type": "VIRTUAL_DIMMER_CHANNEL",
+          "parameters": [
             {
-              "id": "pulse_consumption_today",
+              "id": "LEVEL",
               "type": "FLOAT",
-              "unit": "kWh",
               "defaultValue": 0.0,
               "operations": ["READ", "EVENT"]
             }

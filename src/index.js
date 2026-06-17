@@ -30,14 +30,14 @@ hcuWs.on('open', () => {
     startConsumptionPolling();
 });
 
-function updateHcuVariable(parameterId, value) {
+function updateHcuVariable(deviceId, value) {
     const payload = {
         jsonrpc: "2.0",
         method: "hcu/plugin/updateParameterValue",
         params: {
-            deviceId: "tibber_monitor_device",
-            channelId: "values",
-            parameterId: parameterId,
+            deviceId: deviceId,
+            channelId: "vch0",
+            parameterId: "LEVEL",
             value: value
         },
         id: Date.now()
@@ -75,7 +75,8 @@ async function fetchTibberPrice() {
         const price = firstHome?.currentSubscription?.priceInfo?.current?.total;
         if (price !== undefined && price !== null) {
             console.log(`[Preis-Update] ${price} EUR`);
-            updateHcuVariable("current_price", parseFloat(price));
+            // Wir uebergeben den Preis als FLOAT (z.B. 0.34) direkt an das LEVEL-Feld
+            updateHcuVariable("tibber_price_device", parseFloat(price));
             return;
         }
     }
@@ -109,7 +110,7 @@ async function fetchTibberConsumption() {
             const consumption = firstNode?.accumulatedConsumption;
             if (consumption !== undefined && consumption !== null) {
                 console.log(`[Verbrauchs-Update] ${consumption} kWh`);
-                updateHcuVariable("pulse_consumption_today", parseFloat(consumption));
+                updateHcuVariable("tibber_consumption_device", parseFloat(consumption));
                 return;
             }
         }
